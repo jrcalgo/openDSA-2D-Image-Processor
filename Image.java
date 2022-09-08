@@ -97,29 +97,15 @@ public class Image {
 	//populate the colorgrid objects with the pixel values from the read in image.
 	//You can set a colorgrids pixel value by doing: cg.set(i, j, new Color(r, g, b);
 	public void setColorGrid (ColorGrid cg, Boolean processed) {
-		if (processed == true) {
-
-			for (int row = 0; row < this.width; row++) {
-				for (int col = 0; col < this.height; col++) {
-					cg.set()
-				}
-			}
+		int r, g, b;
+		for (int i = 0; i < this.image_array.length; i++) {
+			cg.set(image_array[i], i, new Color());
 		}
-		else if (processed == false) {
-
-			for (int row = 0; row < this.width; row++) {
-				for (int col = 0; col < this.height; col++) {
-
-				}
-			}
-		}
-		else {
-			System.out.println("Invalid input; null bool");
-		}
+		System.out.println(cg.getHeight() + " " + cg.getWidth());
 	}
 
 	//Function to convert the pixel values from an image into grayscale.
-	//TODO: Loop over the image array and convert the the pixels using this grayscale formula and store them
+	//TODO: Loop over the image array and convert the pixels using this grayscale formula and store them
 	//in the processed array
 	//(r * 0.299 + g * 0.587+ b * 0.114)
 	public void toGrayscale () {
