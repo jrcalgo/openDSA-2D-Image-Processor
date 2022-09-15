@@ -93,30 +93,84 @@ public class Image {
 	}
 
 	// displays image using the BRIDGES color grid
-	//TODO: given the colorgrid object and if you want to display a grayscale or normal image,
+	// given the colorgrid object and if you want to display a grayscale or normal image,
 	//populate the colorgrid objects with the pixel values from the read in image.
 	//You can set a colorgrids pixel value by doing: cg.set(i, j, new Color(r, g, b);
 	public void setColorGrid (ColorGrid cg, Boolean processed) {
-		int r, g, b;
-		for (int i = 0; i < this.image_array.length; i++) {
-			cg.set(image_array[i], i, new Color());
+		// branch for normal image
+		if (!processed) {
+			// creating 2D Color array to store image_array[index] rgb sets
+			final Color[][] color = new Color[getHeight()][getWidth()];
+
+			// outermost for loop for index variable and iterating through each array value based on array dimensions.
+			// Use of 'next' loop variable for self-documentation.
+			for (int i = 0, next = 1; i < this.height*this.width*3; ) {
+				// following two inner for loops for row and column. Column iterates until end of row then row iterates,
+				// repeating process. Color[row][col] stores new Color with corresponding r, g, and b values from
+				// image_array[index]. ColorGrid variable 'cg' set to color[row][col] color at corresponding coordinate
+				// in image. Iterates until no rows left.
+				// Add 3 to outermost loop control variable 'i' to move to next rgb set.
+				for (int row = 0; row < getHeight(); row++) {
+					for (int col = 0; col < getWidth(); col++, i = i + 3) {
+
+						color[row][col] = new Color(this.image_array[i], this.image_array[i+next],
+								this.image_array[i+next+next]);
+						cg.set(row, col, color[row][col]);
+
+
+					}
+				}
+			}
 		}
-		System.out.println(cg.getHeight() + " " + cg.getWidth());
+		// branch for processed/grayscale image
+		else if (processed) {
+			// outermost for loop for index variable and iterating through each array value based on array dimensions.
+			// Use of 'next' loop variable for self-documentation.
+			for (int i = 0, next = 1; i < this.height*this.width*3; ) {
+				// following two inner for loops for row and column. Column iterates until end of row then row iterates,
+				// repeating process. Declares 'rgb' integer variable, sets this variable to summation of 3 consecutive
+				// rgb values in processed_array[]. ColorGrid variable 'cg' set to new Color using summed 'rgb' variable
+				// as each r, g, b value at corresponding coordinate in image. Iterates until no rows left.
+				// Add 3 to outermost loop control variable 'i' to move to next rgb set.
+				for (int row = 0; row < getHeight(); row++) {
+					for (int col = 0; col < getWidth(); col++, i = i + 3) {
+						int rgb;
+
+						rgb = this.processed_array[i] + this.processed_array[i+next]
+								+ this.processed_array[i+next+next];
+						cg.set(row, col, new Color(rgb, rgb, rgb));
+					}
+				}
+			}
+		}
+
 	}
 
+
 	//Function to convert the pixel values from an image into grayscale.
-	//TODO: Loop over the image array and convert the pixels using this grayscale formula and store them
+	// Loop over the image array and convert the pixels using this grayscale formula and store them
 	//in the processed array
 	//(r * 0.299 + g * 0.587+ b * 0.114)
 	public void toGrayscale () {
-		final int GRAY_RGB = 128;
-		float grayVal = 0.299f*GRAY_RGB + 0.587f*GRAY_RGB + 0.114f*GRAY_RGB;
+		// constant rgb conversion values below
+		final float R = .299f, G = 0.587f, B = 0.114f;
 
-		for (int i = 0; i < this.image_array.length; i++) {
-			processed_array[i] = image_array[i];
-			processed_array[i] = (int) grayVal;
+		// for loop iterates through each array value based on array dimensions, stores image_array[index] value in
+		// processed_array[index], same index of processed_array then multiplied by float conversion constant value with
+		// an integer data casting and stored in same index of processed_array. Repeat for each value in set of RGB.
+		// Use of 'next' loop variable for self-documentation.
+		// Add 3 to loop control variable 'i' to move to next rgb set.
+		for (int i = 0, next = 1; i < this.height*this.width*3; i = i+3) {
+			this.processed_array[i] = this.image_array[i];
+			this.processed_array[i] = (int) (this.processed_array[i] * R);
+
+			this.processed_array[i+next] = this.image_array[i+next];
+			this.processed_array[i+next] = (int) (this.processed_array[i+next] * G);
+
+			this.processed_array[i+next+next] = this.image_array[i+next+next];
+			this.processed_array[i+next+next] = (int) (this.processed_array[i+next+next] * B);
 		}
-
 	}
+}
 
-};
+

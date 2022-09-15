@@ -1,5 +1,5 @@
-# Lab-1-ITSC2214-091: Processing 2D Images
-## BRIDGES Link: [2D Image Processing, by Jackson Redman](https://bridges-cs.herokuapp.com/assignments/2/jredman15)
+# Lab-1-ITSC2214-091: Processing 2D Images, by Jackson Redman
+## BRIDGES Link: [2D Image Processing](https://bridges-cs.herokuapp.com/assignments/2/jredman15)
 ### Goals
  1. Working with 2D images.
  2. Implementing simple operations on images, such as color manipulation, filtering.
